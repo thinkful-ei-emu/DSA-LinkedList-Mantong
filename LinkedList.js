@@ -96,27 +96,42 @@ class LinkedList {
       
   }
 
-  getAt(index){
-    let counter = 0;
-    let currNode = this.head;
-    while (currNode) {
-      if (counter === index){
-        return currNode;
-      }
-      counter++;
-      currNode = currNode.next;
+  //   getAt(index){
+  //     let counter = 0;
+  //     let currNode = this.head;
+  //     while (currNode) {
+  //       if (counter === index){
+  //         return currNode;
+  //       }
+  //       counter++;
+  //       currNode = currNode.next;
+  //     }
+  //     return null;
+  //   }
+  //   insertAt(item, index){  
+  //     if (!this.head) {
+  //       return null;
+  //     }
+  //     const previous = this.getAt(index-2);
+  //     let n = new _Node(item);
+  //     n.next = previous.next;
+  //     previous.next = n;
+  //     return this.head;
+  //   }
+
+  insertAt(nthPosition, itemToInsert) {
+    if (nthPosition < 0) {
+      throw new Error('Position error');
     }
-    return null;
-  }
-  insertAt(item, index){  
-    if (!this.head) {
-      return null;
+    if (nthPosition === 0) {
+      this.insertFirst(itemToInsert);
+    }else {
+      // Find the node which we want to insert after
+      const node = this._findNthElement(nthPosition - 1);
+      const newNode = new _Node(itemToInsert, null);
+      newNode.next = node.next; 
+      node.next = newNode;
     }
-    const previous = this.getAt(index-2);
-    let n = new _Node(item);
-    n.next = previous.next;
-    previous.next = n;
-    return this.head;
   }
 }
 

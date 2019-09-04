@@ -76,16 +76,82 @@ function WhatDoesThisProgramDo(lst) {
       }
     }
     current = current.next;
-    //return current;
+    
   }
     
 }
-//return the second item in the list
+//get rid of the repeted items
 //O(n^2) beacuse of nested loop
 function reverseList(linkedList){
+    let currNode = linkedList.head;
+    let prevNode = null;
+    let nextNode;
+    if (linkedList.head === null) {
+        console.log('No items in list');
+        return;
+    }
+    while (currNode !== null) {
+        nextNode = currNode.next;
+        currNode.next = prevNode;
+        prevNode = currNode;
+        currNode = nextNode;
+    }
+    linkedList.head = prevNode;
     
+    return prevNode;
 
 }
+function thirdFromEnd(lst) {
+  let thirdEnd = lst.head;
+  let end = lst.head.next.next.next;
+  while(end !== null) {
+    thirdEnd = thirdEnd.next;
+    end = end.next;
+  }
+  return thirdEnd.value;
+}
+function middleOfList(lst) {
+  let end = lst.head;
+  let middle = lst.head;
+  // two cases cover even and odd length
+  while(end !== null && end.next !== null) {
+    // advance one pointer 2 times faster than the other
+    end = end.next.next;
+    middle = middle.next;
+  }
+  // return the value of the node which was advanced at regular speed
+  return middle.value;
+}
+function hasCycle (lst) {
+  // has a high probability of preventing false positives
+  var flag = Math.random();
+  var current = lst.head; //1 2 3 4
+  while(current !== null) {
+    if(current.value === flag) {
+      return true;
+    }
+    current.value = flag;
+    current = current.next;
+  }
+  return false;
+}
+function findCycle(lst){
+  let fast = lst.head;
+  let slow = lst.head;
+// two cases cover even and odd length
+ while(slow !== null && fast !== null && fast.next !== null) {
+ // advance one pointer 2 times faster than the other
+     slow = slow.next;
+     fast = fast.next.next;
+     if (slow === fast) {
+         console.log("Found CYCLE!!!!");
+         return;
+     }
+ }
+ console.log("NO Cycle Found");
+}
+
+
 function main () {
   const SLL = new LinkedList() ;
   SLL.insertFirst('Apollo');
@@ -111,8 +177,27 @@ function main () {
   //console.log('previous:', findPrevious('Hotdog', SLL));
   //console.log(findPrevious('Hotdog', SLL));
   //console.log('last:', findLast(SLL));
-  WhatDoesThisProgramDo(SLL);
-  display(SLL);
+  //WhatDoesThisProgramDo(SLL);
+ 
+
+  //reverse a List
+    //console.log(reverseList(SLL.head));
+    //displayList(reverse(SLL));
+
+    //thirdFromEnd
+    //console.log(thirdFromEnd(SLL));
+
+    //middle of List
+    //console.log(middleOfList(SLL));
+
+    //cycle in a list
+    //Create a cycle in the list
+    findCycle(SLL);
+    console.log(hasCycle(SLL));
+
+    SLL.head.next.next = SLL.head;
+    findCycle(SLL);
+    console.log(hasCycle(SLL));
 }
     
 main();
